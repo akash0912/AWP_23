@@ -8,19 +8,100 @@
     <style>
       html {
         font-family: sans-serif;
+        background-color: #131212;
+        color: whitesmoke;
       }
 
       body {
+         align-items: center;
         width: 50%;
-        max-width: 800px;
-        min-width: 480px;
+        max-width: 350px;
+        min-width: 380px;
         margin: 0 auto;
+        margin-top: 40px;
+        padding: 10px;
+        
+      }
+      h1{
+        color: #8C82FC;
+      }
+      .form{
+          position: relative;
+          font-family: sans-serif;
+          
       }
 
       .lastResult {
         color: white;
         padding: 3px;
       }
+      p{
+          width: 350px;
+          text-align: center;
+      }
+      .guessSubmit{
+          
+        font-family: 'Ubuntu', sans-serif;
+        margin-top: 20px;
+        margin-left: 110px;
+        width: 120px;
+        height: 30px;
+        line-height: 1;
+        font-size: 11px;
+        font-weight: bold;
+        letter-spacing: 1px;
+        border: 1px solid #8C82FC;
+        background: black;
+        color: #8C82FC;
+        border-radius: 40px;
+        cursor: pointer;
+        overflow: hidden;
+        transition: all .35s;
+      }
+      .guessSubmit:hover{
+        
+        background: #8C82FC;
+         color: #fff;
+       }
+       
+      .guessField{
+          border: 1px solid grey;
+          background-color: #0c0c0c;
+          border-radius: 5px;
+          width: 200px;
+          height: 25px;
+          color: white;
+          padding-left: 5px;
+      }
+      .guessField:focus{
+          border: 1px solid #8C82FC;
+        
+      }
+      button{
+        font-family: 'Ubuntu', sans-serif;
+        margin-top: 20px;
+        margin-left: 110px;
+        width: 120px;
+        height: 30px;
+        line-height: 1;
+        font-size: 11px;
+        font-weight: bold;
+        letter-spacing: 1px;
+        border: 1px solid #8C82FC;
+        background: black;
+        color: #8C82FC;
+        border-radius: 40px;
+        cursor: pointer;
+        overflow: hidden;
+        transition: all .35s;
+      }
+      button:hover{
+        
+        background: #8C82FC;
+         color: #fff;
+       }
+       
+
     </style>
   </head>
 
@@ -32,7 +113,7 @@
     <div class="form">
       <label for="guessField">Enter a guess: </label>
       <input type="text" id="guessField" class="guessField">
-      <input type="submit" value="Submit guess" class="guessSubmit">
+      <div><input type="submit" value="Submit Guess" class="guessSubmit"></div>
     </div>
 
     <div class="resultParas">
@@ -41,7 +122,78 @@
       <p class="lowOrHi"></p>
     </div>
 
-    <script src="scripts/GTN.js">
+    <script>
+        let randomNumber = Math.floor(Math.random() * 100) + 1; 
+
+const guesses = document.querySelector('.guesses'); 
+const lastResult = document.querySelector('.lastResult'); 
+const lowOrHi = document.querySelector('.lowOrHi'); 
+const guessSubmit = document.querySelector('.guessSubmit'); 
+const guessField = document.querySelector('.guessField'); 
+
+let guessCount = 1; 
+let resetButton;
+
+function checkGuess() { 
+    let userGuess = Number(guessField.value); 
+    if (guessCount === 1) { 
+    guesses.textContent = 'Previous guesses: '; 
+    } 
+    guesses.textContent += userGuess + ' '; 
+    
+    if (userGuess === randomNumber) { 
+    lastResult.textContent = 'Congratulations! You got it right!';
+    lastResult.style.backgroundColor = 'green'; 
+    lowOrHi.textContent = ''; 
+    setGameOver(); 
+    } else if (guessCount === 10) { 
+    lastResult.textContent = '!!!GAME OVER!!!'; 
+    setGameOver(); 
+    } else { 
+    lastResult.textContent = 'Wrong!'; 
+    lastResult.style.backgroundColor = 'red'; 
+    if(userGuess < randomNumber) {
+     lowOrHi.textContent = 'Last guess was too low!'; 
+    } else if(userGuess > randomNumber) { 
+    lowOrHi.textContent = 'Last guess was too high!'; 
+    } 
+    } 
+    
+    
+    guessCount++;
+    guessField.value = '';
+    guessField.focus(); 
+    }
+    guessSubmit.addEventListener('click', checkGuess);
+
+    function setGameOver() { 
+        guessField.disabled = true; 
+        guessSubmit.disabled = true; 
+        resetButton = document.createElement('button'); 
+        resetButton.textContent = 'Start new game'; 
+        document.body.append(resetButton); 
+        resetButton.addEventListener('click', resetGame); 
+        }
+
+        function resetGame() { 
+            guessCount = 1;
+            
+            const resetParas = document.querySelectorAll('.resultParas p'); 
+            for (let i = 0 ; i < resetParas.length ; i++) { 
+            resetParas[i].textContent = ''; 
+            } 
+            
+            resetButton.parentNode.removeChild(resetButton); 
+            
+            guessField.disabled = false; 
+            guessSubmit.disabled = false; 
+            guessField.value = ''; 
+            guessField.focus(); 
+            
+            lastResult.style.backgroundColor = '#131212'; 
+            
+            randomNumber = Math.floor(Math.random() * 100) + 1; 
+            }
 
     </script>
   </body>
