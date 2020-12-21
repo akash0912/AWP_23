@@ -1,6 +1,8 @@
+<!DOCTYPE html>
 <html>
 
 <head>
+   
 <style>
 p {
 font-family: 'helvetica neue', helvetica, sans-serif;
@@ -17,11 +19,20 @@ display: inline-block;
 cursor: pointer;
 }
 </style>
+<script>
 
-</head>
-<p>Player 1: Chris</p>
-<script src="scripts/app.js">
-   
+window.onload= function(){
+    document.getElementById('a').addEventListener('click', function()  {
+    var name= prompt('Enter a new name');
+    document.getElementById('a').textContent = 'Player 1: ' + name;
+
+    });
+}
 </script>
+</head>
+<body>
+  <p id="a">Player 1: Chris</p> 
+  
+</body>
 </html>
 
